@@ -137,22 +137,14 @@ for (const auto& Prop : Reflex->GetProps()) {
 
 | 虚幻引擎 (Unreal Engine) | XReflex | 说明 |
 | --- | --- | --- |
-| `UCLASS()`<br>
-
-<br>`class UMyClass : public UObject`<br>
-
-<br>`{ GENERATED_BODY() ... }` | `class MyClass : public Object`<br>
-
-<br>`{ CLASS_BODY(MyClass, Object) ... }` | 类的声明。XReflex 使用 `CLASS_BODY`，并将父类类型作为第二个参数传入。 |
+| `class UMyClass : public UObject` | `class MyClass : public Object { CLASS_BODY(MyClass, Object) };` | 类的声明。XReflex 使用 `CLASS_BODY` 宏，并将父类类型作为第二个参数传入。 |
 | `UPROPERTY(EditAnywhere)` | `XPROP_META(VarName, {"EditAnywhere", "1"})` | 属性的注册。UE 通过 UHT 生成，XReflex 需要在 cpp 中用宏显式注册。 |
 | `UFUNCTION()` | `XFUNC(FuncName)` | 函数的注册。XReflex 支持变参且自动处理装箱拆箱。 |
 | `UMyClass::StaticClass()` | `MyClass::SClass()` | 获取元类 (Metaclass) 单例对象。 |
-| `Obj->IsA(UMyClass::StaticClass())`<br>
-
-<br>`Obj->IsA<UMyClass>()` | `IsA<MyClass>(Obj)` | 判断实例是否属于某个类（或其子类）。 |
+| `Obj->IsA<UMyClass>()` | `IsA<MyClass>(Obj)` | 判断实例是否属于某个类（或其子类）。 |
 | `Cast<UMyClass>(Obj)` | `Cast<MyClass>(Obj)` | 安全的动态向下转型。如果失败则返回 `nullptr`。 |
 | `Super::BeginPlay()` | `Super::BeginPlay()` | `CLASS_BODY` 内部会自动 `using Super = 父类`，与 UE 用法完全一致！ |
-| `UScriptStruct` (纯数据) | `DATA_BODY` 宏 | XReflex 通过 `DATA_BODY` 声明非多态的纯数据反射（无 vtable 开销）。 |
+| `UScriptStruct` | `DATA_BODY` 宏 | XReflex 通过 `DATA_BODY` 声明非多态的纯数据反射（无 vtable 开销）。 |
 
 ### 核心差异
 
